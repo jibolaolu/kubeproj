@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-webapp
+
+spec:
+# this defines which pods are going to be represented by thise Service
+# The service becomes a network endpoint for either of the services
+# or may be  external users to connect to the browser
+
+  selector:
+    mylabelapp: webapp
+       
+  ports:
+    - name: http
+      port: 80
+      nodePort: 30080
+  
+  type: NodePort 
+  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-queue
+
+spec:
+# this defines which pods are going to be represented by thise Service
+# The service becomes a network endpoint for either of the services
+# or may be  external users to connect to the browser
+
+  selector:
+    mylabelapp: queue
+    
+    
+  ports:
+    - name: http
+      port: 8161
+      nodePort: 30010
+    
+    - name: endpoint
+      port: 61616
+      
+  type: NodePort 
+  
+---
+ 
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-position-tracker
+
+spec:
+# this defines which pods are going to be represented by thise Service
+# The service becomes a network endpoint for either of the services
+# or may be  external users to connect to the browser
+
+  selector:
+    mylabelapp: position-tracker
+    
+    
+  ports:
+    - name: http
+      port: 8080
+      
+  type: ClusterIP 
+  
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-api-gateway
+
+spec:
+# this defines which pods are going to be represented by thise Service
+# The service becomes a network endpoint for either of the services
+# or may be  external users to connect to the browser
+
+  selector:
+    mylabelapp: api-gateway
+    
+    
+  ports:
+    - name: http
+      port: 8080
+      nodePort: 30020
+      
+  type: NodePort

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+spec:
+  selector:
+    matchLabels:
+      mylabelapp: mongodb
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        mylabelapp: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:3.6.5-jessie
+        volumeMounts:
+          - name: mongo-persistent-storage
+          # Pointer to how we want the mount to be implemented 
+            persistentVolumeClaim:
+              #claimName: mongo-pvc
+            mountPath: /data/db
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 500m
+      volumes:
+        - name: mongo-persistent-storage
+          hostPath:
+            path: /mnt/some/directory/structure/
+            type: DirectoryOrCreate
+          # pointer to the configuration of HOW we want the mount to be implemented
+        #  persistentVolumeClaim:
+           # claimName: mongo-pvc
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: fleetman-mongodb
+spec:
+  selector:
+    mylabelapp: mongodb
+  ports:
+    - name: mongoport
+      port: 27017
+  type: ClusterIP

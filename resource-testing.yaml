@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue
+spec:
+  #minReadySeconds: 30
+  selector:   
+    matchLabels: 
+      mylabelapp: queue
+  replicas: 2
+  template: 
+    metadata:
+      labels:
+        mylabelapp: queue
+    
+    spec:
+      containers:
+      - name: queue
+        image: richardchesterwood/k8s-fleetman-queue:release2
+        resources:
+          requests:
+            memory: 300Mi #1Mi =1024ki 1ki =1024 bytes
+            cpu: 100m
+          #limits:
+            #memory: 500Mi
+            #cpu: 100m
