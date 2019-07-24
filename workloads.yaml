@@ -21,6 +21,11 @@ spec:
           requests:
             memory: 300Mi #1Mi =1024ki 1ki =1024 bytes
             cpu: 100m
+          limits:
+            memory: 300Mi
+            cpu: 100m            
+          
+    
     
 ---
 
