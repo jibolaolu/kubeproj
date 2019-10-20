@@ -1,0 +1,21 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: new-joiner
+  namespace: default
+rules:
+- apiGroups: ["", "apps"]
+  resources: ["*"] #look at pods services and not deployment
+  verbs: ["get","list","watch"]
+  
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: add-user-to-the-role
+  namespace: default
+subjects:
+  #list all the users in the role
+- kind: User
+  name: Seun-linux
+  apiGroup: rbac.authorization.k8s.io
